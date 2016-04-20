@@ -6,6 +6,10 @@ var _keys = [];
 
 var KeyStore = new Store(dispatcher);
 
+var allKeys = function () {
+  return _keys.slice();
+};
+
 var addKey = function (key) {
   _keys.push(key);
   KeyStore.__emitChange();
@@ -20,7 +24,6 @@ var removeKey = function (key) {
 
 KeyStore.__onDispatch = function (payload) {
   switch(payload.actionType){
-    
     case 'KEY_PRESSED':
     KeyStore.addKey(payload.key);
     break;
@@ -30,3 +33,5 @@ KeyStore.__onDispatch = function (payload) {
     break;
   }
 };
+
+module.exports = KeyStore;
