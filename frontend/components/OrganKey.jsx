@@ -1,11 +1,12 @@
 var React = require('react'),
     KeyActions = require('../actions/KeyAction'),
-    KeyStore = require('../store/KeyStore'),
+    KeyStore = require('../stores/KeyStore'),
     Note = require('../util/Note.js'),
     Tones = require('../constants/Tones.js');
 
-var Key = React.createClass({
+var OrganKey = React.createClass({
   getInitialState: function (){
+    this.note = new Note(Tones[this.props.keyNote]);
     return {playing: false};
   },
   startNote: function () {
@@ -19,8 +20,7 @@ var Key = React.createClass({
 
   handleNote: function () {
     var keys = KeyStore.allKeys();
-    console.log('handling it');
-    if (keys.indexOf(this.props.keyNote !== -1)) {
+    if (keys.indexOf(this.props.keyNote) !== -1) {
       this.setState({playing: true});
     } else {
       this.setState({playing: false});
@@ -28,25 +28,32 @@ var Key = React.createClass({
   },
 
   componentDidMount: function () {
-    console.log('mounted it');
-    this.note = new Note(Tones[this.props.keyNote]);
     KeyStore.addListener(this.handleNote);
   },
 
-  render: function () {
+  componentWillUnmount: function () {
+    KeyStore.removeListener(this.handleNote);
+  },
 
-    if (this.playing) {
-      console.log('playing it');
+  render: function () {
+    var keyClass;
+    if (this.state.playing) {
+      console.log("starting note");
       this.startNote();
+      keyClass = "pressed";
     } else {
+      console.log("stopped note");
       this.stopNote();
+      keyClass = "released";
     }
 
     return (
-      <div>
-
+      <div className={keyClass}>
+          {this.props.keyNote}
       </div>
     );
   }
 
 });
+
+module.exports = OrganKey;

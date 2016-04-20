@@ -19,7 +19,6 @@ var keyUp = $(document).keyup(function (e) {
 
 var keyDown = $(document).keydown(function (e) {
   var key = mapping[e.keyCode];
-  console.log(["key down", key]);
   KeyAction.keyPressed(key);
 });
 

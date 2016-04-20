@@ -6,13 +6,15 @@ var _keys = [];
 
 var KeyStore = new Store(dispatcher);
 
-var allKeys = function () {
+KeyStore.allKeys = function () {
   return _keys.slice();
 };
 
 var addKey = function (key) {
-  _keys.push(key);
-  KeyStore.__emitChange();
+  if (_keys.indexOf(key) === -1){
+    _keys.push(key);
+    KeyStore.__emitChange();
+  }
 };
 
 var removeKey = function (key) {
@@ -25,11 +27,11 @@ var removeKey = function (key) {
 KeyStore.__onDispatch = function (payload) {
   switch(payload.actionType){
     case 'KEY_PRESSED':
-    KeyStore.addKey(payload.key);
+    addKey(payload.key);
     break;
 
     case 'KEY_RELEASED':
-    KeyStore.removeKey(payload.key);
+    removeKey(payload.key);
     break;
   }
 };
