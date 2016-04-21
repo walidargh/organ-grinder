@@ -7,17 +7,19 @@ var Recorder = React.createClass({
     return {isRecording: false, track: new Track()};
   },
 
-  updateTracks: function () {
+  updateTrack: function () {
     var notes = KeyStore.allKeys();
-    var newTracks = this.state.track.addNote();
-    this.setState({track: newTracks});
+    var newTrack = this.state.track.addNote();
+    this.setState({track: newTrack});
   },
 
   componentDidMount: function () {
-    KeyStore.addListener(this.handler);
+    KeyStore.addListener(this.updateTrack);
   },
 
   render: function () {
-
+    return (
+      <input type="button" value="Play"/>
+    );
   }
 });

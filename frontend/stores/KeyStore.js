@@ -24,6 +24,12 @@ var removeKey = function (key) {
   KeyStore.__emitChange();
 };
 
+var addKeys = function (keys) {
+  keys.forEach(function (key) {
+    addKey(key);
+  });
+};
+
 KeyStore.__onDispatch = function (payload) {
   switch(payload.actionType){
     case 'KEY_PRESSED':
@@ -32,6 +38,10 @@ KeyStore.__onDispatch = function (payload) {
 
     case 'KEY_RELEASED':
     removeKey(payload.key);
+    break;
+
+    case 'KEYS_PRESSED':
+    addKeys(payload.key);
     break;
   }
 };

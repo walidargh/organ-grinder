@@ -8,6 +8,13 @@ var KeyAction = {
     });
   },
 
+  keysPressed: function(keys){
+    dispatcher.dispatch({
+      actionType: "KEYS_PRESSED",
+      key: keys
+    });
+  },
+
   keyReleased: function(key){
     dispatcher.dispatch({
       actionType: "KEY_RELEASED",
